@@ -1,8 +1,8 @@
-# mikenye/youtube-dl
+# niyuen/youtube-dl
 
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/mikenye/docker-youtube-dl/Deploy%20to%20Docker%20Hub)](https://github.com/mikenye/docker-youtube-dl/actions?query=workflow%3A%22Deploy+to+Docker+Hub%22)
-[![Docker Pulls](https://img.shields.io/docker/pulls/mikenye/youtube-dl.svg)](https://hub.docker.com/r/mikenye/youtube-dl)
-[![Docker Image Size (tag)](https://img.shields.io/docker/image-size/mikenye/youtube-dl/latest)](https://hub.docker.com/r/mikenye/youtube-dl)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/niyuen/docker-youtube-dl/Deploy%20to%20Docker%20Hub)](https://github.com/niyuen/docker-youtube-dl/actions?query=workflow%3A%22Deploy+to+Docker+Hub%22)
+[![Docker Pulls](https://img.shields.io/docker/pulls/niyuen/youtube-dl.svg)](https://hub.docker.com/r/niyuen/youtube-dl)
+[![Docker Image Size (tag)](https://img.shields.io/docker/image-size/niyuen/youtube-dl/latest)](https://hub.docker.com/r/niyuen/youtube-dl)
 [![Discord](https://img.shields.io/discord/734090820684349521)](https://discord.gg/sTf9uYF)
 
 `yt-dl` - download videos many online video platforms
@@ -12,7 +12,7 @@
 
 ## Table of Contents
 
-* [mikenye/youtube-dl](#mikenyeyoutube-dl)
+* [niyuen/youtube-dl](#niyuenyoutube-dl)
   * [Table of Contents](#table-of-contents)
   * [Multi Architecture Support](#multi-architecture-support)
   * [Quick Start](#quick-start)
@@ -44,7 +44,7 @@ alias yt-dl='docker run \
                   -e PGID=$(id -g) \
                   -e PUID=$(id -u) \
                   -v "$(pwd)":/workdir:rw \
-                  mikenye/youtube-dl'
+                  niyuen/youtube-dl'
 ```
 
 **HANDY HINT:** After updating your `.bash_aliases` file, run `source ~/.bash_aliases` to make your changes live!
@@ -70,7 +70,7 @@ docker run \
     -e PUID=$(id -u) \
     -v /path/to/downloaded/videos:/workdir:rw \
     -v /path/to/youtube-dl.conf:/etc/youtube-dl.conf:ro \
-    mikenye/youtube-dl
+    niyuen/youtube-dl
 ```
 
 Where:
@@ -105,7 +105,7 @@ docker run \
     -v /path/to/downloaded/videos:/workdir:rw \
     -v /path/to/youtube-dl.conf:/etc/youtube-dl.conf:ro \
     -v /path/to/netrc_file:/home/dockeruser/.netrc:ro
-    mikenye/youtube-dl
+    niyuen/youtube-dl
 ```
 
 ## Configuration Files
@@ -156,7 +156,7 @@ docker run \
     -v /path/to/netrc:/home/dockeruser/.netrc:ro
     -v /path/to/youtube/subscriptions:/workdir:rw
     -v /path/to/youtube-dl.conf:/etc/youtube-dl.conf:ro
-    mikenye/youtube-dl \
+    niyuen/youtube-dl \
     :ytsubscriptions \
     --dateafter now-5days \
     --download-archive /workdir/.youtube-dl-archive \
@@ -217,7 +217,7 @@ The above example config file will:
 If the system on which the container runs doesn't provide a way to easily update the Docker image (eg: watchtower), simply pull the latest version of the container:
 
 ```shell
-docker pull mikenye/youtube-dl
+docker pull niyuen/youtube-dl
 ```
 
 ## Shell access
@@ -233,9 +233,9 @@ Where `CONTAINER` is the name of the running container.
 To start a container with a shell (instead of `youtube-dl`), execute the following command:
 
 ```shell
-docker run --rm -ti --entrypoint=/bin/sh mikenye/youtube-dl
+docker run --rm -ti --entrypoint=/bin/sh niyuen/youtube-dl
 ```
 
 ## Support or Contact
 
-Having troubles with the container or have questions? Please [create a new issue](https://github.com/mikenye/docker-youtube-dl/issues).
+Having troubles with the container or have questions? Please [create a new issue](https://github.com/niyuen/docker-youtube-dl/issues).

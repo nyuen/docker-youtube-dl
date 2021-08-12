@@ -17,6 +17,8 @@ RUN set -x && \
     KEPT_PACKAGES+=(bash) && \
     TEMP_PACKAGES+=(build-essential) && \
     KEPT_PACKAGES+=(ca-certificates) && \
+    KEPT_PACKAGES+=(wget) && \
+    KEPT_PACKAGES+=(tar) && \
     KEPT_PACKAGES+=(ffmpeg) && \
     KEPT_PACKAGES+=(locales) && \
     KEPT_PACKAGES+=(locales-all) && \
@@ -29,6 +31,7 @@ RUN set -x && \
     KEPT_PACKAGES+=(zip) && \
     KEPT_PACKAGES+=(atomicparsley) && \
     KEPT_PACKAGES+=(aria2) && \
+    KEPT_PACKAGES+=(curl) && \
     # Install packages
     apt-get update -y && \
     apt-get install -y --no-install-recommends \
@@ -53,7 +56,10 @@ RUN set -x && \
     apt-get autoremove -y && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/* /tmp/* /src && \
-    youtube-dl --version > /CONTAINER_VERSION
+    youtube-dl --version > /CONTAINER_VERSION && \
+    wget -O azcopy_v10.tar.gz https://aka.ms/downloadazcopy-v10-linux && tar -xf azcopy_v10.tar.gz --strip-components=1 && \
+    cp ./azcopy /usr/bin/ && \
+    curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 
 # # Copy init script, set workdir & entrypoint
 COPY init /init
