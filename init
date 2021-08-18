@@ -71,7 +71,7 @@ fi
 
 
 # Run youtube-dlc with remainder of command line arguments
-setpriv --reuid dockeruser --regid dockeruser --keep-groups python3 /usr/local/bin/youtube-dl --restrict-filenames -f bestvideo[ext=mp4] "$@"
+setpriv --reuid dockeruser --regid dockeruser --keep-groups python3 /usr/local/bin/youtube-dl --restrict-filenames -f bestvideo[ext=mp4] "$YOUTUBE_URL"
 
 cd /workdir
 
@@ -93,22 +93,31 @@ done
 
 echo "checking azure env variables"
 
-if [[ -n $CLIENT_ID && -n $CLIENT_SECRET && -n $STORAGE_ACCOUNT && -n $CONTAINER && -n $AZURE_TENANT ]];
+# if [[ -n $CLIENT_ID && -n $CLIENT_SECRET && -n $STORAGE_ACCOUNT && -n $CONTAINER && -n $AZURE_TENANT ]];
+#Moving to User Assigned Managed Identity
+if [[ -n $STORAGE_ACCOUNT && -n $STORAGE_CONTAINER ]];
 then
     echo "Azure login"
     #Make sure the user has Storage Blob Data Contributor access"
-    az login --service-principal -u $CLIENT_ID -p $CLIENT_SECRET --tenant $AZURE_TENANT
+    # az login --service-principal -u $CLIENT_ID -p $CLIENT_SECRET --tenant $AZURE_TENANT
+     az login --identity
     # export AZCOPY_SPA_CLIENT_SECRET=$CLIENT_SECRET
     # azcopy login --service-principal --application-id $CLIENT_ID
     echo "uploading videos to blob storage"
     for videofile in ./*; do
         basename=`basename "$videofile"`
         echo "uploading to blob"
-        az storage blob upload -f $videofile --account-name $STORAGE_ACCOUNT -c $CONTAINER -n $basename --auth-mode login
+        az storage blob upload -f $videofile --account-name $STORAGE_ACCOUNT -c $STORAGE_CONTAINER -n $basename --auth-mode login
         rm -f $videofile
         #echo "azcopy for $basename"
         #azcopy copy $videofile  "https://$STORAGE_ACCOUNT.blob.core.windows.net/$CONTAINER/$basename"
     done
 else
     echo "Missing environment variable"
+fi
+
+if [[ -n $CALLBACK_URL ]];
+then
+    echo "callback url $CALLBACK_URL"
+    curl -X POST $CALLBACK_URL -H 'Content-Type: application/json' -d '{}'
 fi
