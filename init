@@ -71,10 +71,11 @@ fi
 
 
 # Run youtube-dlc with remainder of command line arguments
+
+export TMPDIR=$(mktemp -d --tmpdir=/workdir)
+cd $TMPDIR
+
 setpriv --reuid dockeruser --regid dockeruser --keep-groups python3 /usr/local/bin/youtube-dl --restrict-filenames -f bestvideo[ext=mp4] "$YOUTUBE_URL"
-
-cd /workdir
-
 echo "List downloaded videos"
 
 for videofile in ./*; do
@@ -112,6 +113,8 @@ then
         #echo "azcopy for $basename"
         #azcopy copy $videofile  "https://$STORAGE_ACCOUNT.blob.core.windows.net/$CONTAINER/$basename"
     done
+    cd /workdir
+    rm -rf $TMPDIR
 else
     echo "Missing environment variable"
 fi
